@@ -1,0 +1,32 @@
+﻿<Window x:Class="TankGame_MapEditor.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="About" SizeToContent="WidthAndHeight" ResizeMode="NoResize" Background="#1C1C1C" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Icon="icon.ico">
+    <Grid Height="120" Width="300">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Image Source="icon.ico" Width="75" HorizontalAlignment="Right" />
+
+        <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="0,0,10,0">
+            <Label Content="TankGame map editor" Foreground="White" FontWeight="ExtraBold" />
+            <Label Content="Created by ReyeMe" Foreground="White" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Background="#2D2D30">
+            <TextBlock Margin="5,0" VerticalAlignment="Center">
+                <Hyperlink Foreground="Gray" RequestNavigate="OpenLink" NavigateUri="https://reye.me">https://reye.me/</Hyperlink>
+            </TextBlock>
+            <Button Margin="5" Padding="5,2" Content="Close" HorizontalAlignment="Right" IsCancel="True" />
+        </Grid>
+    </Grid>
+</Window>

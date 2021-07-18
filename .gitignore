@@ -1,0 +1,63 @@
+#ignore thumbnails created by windows
+Thumbs.db
+
+# Ignore files built by Visual Studio
+*.aps
+*.bak
+*.bu
+*.cache
+*.DotSettings
+*.idb
+*.ilk
+*.log
+*.metaproj
+*.ncb
+*.obj
+*.opensdf
+*.pch
+*.pdb
+*.sbr
+*.sdf
+*.sonar
+*.suo
+*.tlh
+*.tmp
+*.user
+*.vspscc
+*.vsscc
+
+
+# Developer tool generated files
+*My Amplifier XE Results - *
+*My Inspector XE Results - *
+*StyleCop.Cache
+*.orig
+*.rej
+*.GhostDoc.xml
+
+#Folders with generated stuff
+BuildDrop/
+ObjDrop/
+output/
+bin/
+bin_x64/
+bin_release/
+bin_release_x64/
+ipch/
+obj/
+[Dd]ebug/
+[Rr]elease/
+[Tt]est[Rr]esult*/
+_ReSharper*/
+[Ii]nstaller_bin/
+
+# NuGet
+packages/
+*.swp
+*.pyc
+*.py~
+
+ObjDir/
+/.clang-tidy
+/.vs/
+/compile_commands.json
