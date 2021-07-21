@@ -1,17 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Media;
-
-namespace TankGame_MapEditor.Views
+﻿namespace TankGame_MapEditor.Views
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Player spawn
+    /// </summary>
     public class SpawnView : BaseView
     {
+        /// <summary>
+        /// Player start angle
+        /// </summary>
         private ushort angle;
 
+        /// <summary>
+        /// PLayer spawn number
+        /// </summary>
         private int playerNumber;
 
+        /// <summary>
+        /// Gets or sets player start angle
+        /// </summary>
         public ushort Angle
         {
             get
@@ -26,6 +37,9 @@ namespace TankGame_MapEditor.Views
             }
         }
 
+        /// <summary>
+        /// Gets player color
+        /// </summary>
         public SolidColorBrush PlayerColor
         {
             get
@@ -44,6 +58,9 @@ namespace TankGame_MapEditor.Views
             }
         }
 
+        /// <summary>
+        /// Gets or sets player start number
+        /// </summary>
         public int PlayerNumber
         {
             get
@@ -59,6 +76,12 @@ namespace TankGame_MapEditor.Views
             }
         }
 
+        /// <summary>
+        /// Convert spawn object to byte array
+        /// </summary>
+        /// <param name="location">Spawn location</param>
+        /// <param name="spawn">Spawn object</param>
+        /// <returns>Byte array</returns>
         public static byte[] ToBytes(Point location, SpawnView spawn)
         {
             List<byte> bytes = new List<byte>();
