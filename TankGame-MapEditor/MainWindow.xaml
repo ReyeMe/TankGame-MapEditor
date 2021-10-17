@@ -97,10 +97,6 @@
                                 <Grid />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
-                        <ItemsControl.Resources>
-                            <Style TargetType="{x:Type Rectangle}" BasedOn="{StaticResource WallRectangle}" />
-                            <Style TargetType="{x:Type Ellipse}" BasedOn="{StaticResource PlayerLocation}" />
-                        </ItemsControl.Resources>
                     </ItemsControl>
                 </Border>
             </ScrollViewer>

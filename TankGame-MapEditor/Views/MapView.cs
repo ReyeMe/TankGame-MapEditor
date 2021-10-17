@@ -35,7 +35,7 @@
         {
             this.PutRectangle = new UICommand((parameter) => this.PutRectangleTask(parameter));
             this.PutSpawn = new UICommand((parameter) => this.PutSpawnTask(parameter));
-            this.DeleteItem = new UICommand((parameter) => this.Elements.Remove((Shape)parameter));
+            this.DeleteItem = new UICommand((parameter) => this.Elements.Remove((FrameworkElement)parameter));
 
             for (int x = 0; x < 740; x += 20)
             {
@@ -63,7 +63,7 @@
         /// <summary>
         /// Contains all elements of the map
         /// </summary>
-        public ObservableCollection<Shape> Elements { get; } = new ObservableCollection<Shape>();
+        public ObservableCollection<FrameworkElement> Elements { get; } = new ObservableCollection<FrameworkElement>();
 
         /// <summary>
         /// Gets put rectangle
@@ -97,7 +97,16 @@
                     Array.Reverse(angleBytes);
 
                     SpawnView spawnData = new SpawnView { Angle = BitConverter.ToUInt16(angleBytes, 0), PlayerNumber = spawn };
-                    map.Elements.Add(new Ellipse { Tag = spawnData, Margin = new Thickness(location.X - 20.0, 0.0, 0.0, location.Y - 20.0) });
+                    map.Elements.Add(new Border
+                    {
+                        Tag = spawnData,
+                        Margin = new Thickness(location.X - 20.0, 0.0, 0.0, location.Y - 20.0),
+                        Style = Application.Current.FindResource("PlayerLocation") as Style,
+                        Child = new Label
+                        {
+                            Style = Application.Current.FindResource("PlayerRotation") as Style
+                        }
+                    });
                 }
 
                 for (int wall = 0; wall < walls; wall++)
@@ -110,6 +119,7 @@
                     wallElement.Width = Math.Abs(right - left);
                     wallElement.Height = Math.Abs(top - bottom);
                     wallElement.Margin = new Thickness(left, 0.0, 0.0, bottom);
+                    wallElement.Style = Application.Current.FindResource("WallRectangle") as Style;
 
                     WallView wallData = new WallView();
                     byte flags = (byte)stream.ReadByte();
@@ -135,14 +145,14 @@
 
             using (FileStream stream = File.OpenWrite(fileName))
             {
-                List<Ellipse> spawns = this.Elements.OfType<Ellipse>().ToList();
+                List<Border> spawns = this.Elements.OfType<Border>().ToList();
                 List<Rectangle> walls = this.Elements.OfType<Rectangle>().ToList();
 
                 // Write header
                 stream.Write(new byte[] { (byte)spawns.Count, (byte)walls.Count, 0 }, 0, 3);
 
                 // Write spawns
-                foreach (Ellipse spawn in spawns.OrderBy(spawn => ((SpawnView)spawn.Tag).PlayerNumber))
+                foreach (Border spawn in spawns.OrderBy(spawn => ((SpawnView)spawn.Tag).PlayerNumber))
                 {
                     byte[] bytes = SpawnView.ToBytes(new Point(spawn.Margin.Left + 20.0, spawn.Margin.Bottom + 20.0), (SpawnView)spawn.Tag);
                     stream.Write(bytes, 0, bytes.Length);
@@ -204,6 +214,7 @@
                 Width = 0.0,
                 Height = 0.0,
                 Margin = new Thickness(bottomLeft.X, 0.0, 0.0, bottomLeft.Y),
+                Style = Application.Current.FindResource("WallRectangle") as Style,
                 Tag = new WallView()
             };
 
@@ -216,17 +227,22 @@
         /// </summary>
         /// <param name="bottomLeft">center of spawn</param>
         /// <returns>Spawn, or <see langword="null"/> if full</returns>
-        private Ellipse CreateAndAddSpawn(Point center)
+        private FrameworkElement CreateAndAddSpawn(Point center)
         {
-            if (Elements.Count(element => element is Ellipse) >= byte.MaxValue)
+            if (Elements.Count(element => element is Border) >= byte.MaxValue)
             {
                 return null;
             }
 
-            Ellipse spawn = new Ellipse
+            Border spawn = new Border
             {
                 Margin = new Thickness(center.X - 20.0, 0.0, 0.0, center.Y - 20.0),
-                Tag = new SpawnView()
+                Style = Application.Current.FindResource("PlayerLocation") as Style,
+                Tag = new SpawnView(),
+                Child = new Label
+                {
+                    Style = Application.Current.FindResource("PlayerRotation") as Style
+                }
             };
 
             this.Elements.Add(spawn);
@@ -376,7 +392,7 @@
                 Point currentMouseLocation = new Point();
                 Point pickedLocation = new Point();
                 ConcurrentQueue<EventArgs> actions = new ConcurrentQueue<EventArgs>();
-                Ellipse spawn = null;
+                FrameworkElement spawn = null;
                 bool cancel = false;
 
                 MouseButtonEventHandler mouseClicked = (sender, e) => actions.Enqueue(e);
