@@ -323,8 +323,6 @@
                             MapView.DispatcherInvoke(
                                 () =>
                                 {
-                                    ((MainWindow)App.Current.MainWindow).PickerMessage.Content = "Pick second point...";
-
                                     double right = Math.Max(currentMouseLocation.X, pickedLocation.X);
                                     double left = Math.Min(currentMouseLocation.X, pickedLocation.X);
                                     double top = Math.Max(currentMouseLocation.Y, pickedLocation.Y);
@@ -333,6 +331,8 @@
                                     rectangle.Width = Math.Max(right - left, 10.0);
                                     rectangle.Height = Math.Max(top - bottom, 10.0);
                                     rectangle.Margin = new Thickness(left, 0.0, 0.0, bottom);
+
+                                    ((MainWindow)App.Current.MainWindow).PickerMessage.Content = string.Format("Pick second point... ({0},{1})", (int)rectangle.Width, (int)rectangle.Height);
                                 });
                         }
                         else
